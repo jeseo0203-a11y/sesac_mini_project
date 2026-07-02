@@ -44,10 +44,12 @@ app = FastAPI(title="HobbyDNA MVP")
 init_db()
 
 # CORS: 프론트(Vercel) 도메인 허용
+# 브라우저 Origin 헤더는 끝에 '/'가 절대 붙지 않으므로, 허용 목록도 끝 슬래시를 제거해
+# 정확히 일치시켜야 한다(안 그러면 로그인 후 API 호출이 CORS로 막힌다).
 _origins = os.getenv("FRONTEND_URL", "http://localhost:3000")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[o.strip() for o in _origins.split(",")] + ["http://localhost:3000"],
+    allow_origins=[o.strip().rstrip("/") for o in _origins.split(",")] + ["http://localhost:3000"],
     allow_credentials=True, allow_methods=["*"], allow_headers=["*"],
 )
 

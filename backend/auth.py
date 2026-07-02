@@ -15,7 +15,9 @@ GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID", "")
 GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET", "")
 JWT_SECRET = os.getenv("JWT_SECRET", "dev-secret-change-me")
 REDIRECT_URI = os.getenv("REDIRECT_URI", "http://localhost:8000/auth/google/callback")
-FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:3000")
+# 끝에 '/'가 붙어 있으면 리다이렉트 URL이 '//#token=...'처럼 이중 슬래시가 되어
+# 프론트 라우팅이 깨지므로 항상 제거해둔다.
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:3000").rstrip("/")
 JWT_TTL = 60 * 60 * 24 * 30  # 30일
 
 GOOGLE_AUTH = "https://accounts.google.com/o/oauth2/v2/auth"
