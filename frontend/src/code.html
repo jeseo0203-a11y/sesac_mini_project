@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #FBF9FF;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .gradient-sphere {
+            filter: blur(80px);
+            opacity: 0.5;
+            z-index: 0;
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-primary": "#ffffff",
+                      "text-muted": "#A6A1B8",
+                      "surface-container-highest": "#e7defe",
+                      "tertiary": "#00554b",
+                      "outline": "#787585",
+                      "on-surface-variant": "#474554",
+                      "on-primary-fixed-variant": "#3e2fb2",
+                      "on-primary-container": "#e0dbff",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-bright": "#fdf7ff",
+                      "outline-variant": "#c8c4d6",
+                      "secondary": "#ae3115",
+                      "tertiary-fixed": "#71f8e4",
+                      "tertiary-container": "#006f64",
+                      "tertiary-fixed-dim": "#4fdbc8",
+                      "on-tertiary-fixed": "#00201c",
+                      "on-surface": "#1d182f",
+                      "on-secondary-container": "#640f00",
+                      "on-tertiary-container": "#6df4e1",
+                      "surface-dim": "#dfd5f5",
+                      "primary-fixed-dim": "#c5c0ff",
+                      "on-secondary": "#ffffff",
+                      "surface-container": "#f2ebff",
+                      "secondary-fixed-dim": "#ffb4a3",
+                      "inverse-on-surface": "#f5eeff",
+                      "text-secondary": "#6B6580",
+                      "on-primary-fixed": "#140067",
+                      "skeleton": "#F0EDF9",
+                      "border": "#EAE6F5",
+                      "selection-bg": "#F0EDFF",
+                      "secondary-container": "#fd6a49",
+                      "primary": "#4234b6",
+                      "on-error-container": "#93000a",
+                      "surface-container-high": "#ede4ff",
+                      "on-background": "#1d182f",
+                      "surface-variant": "#e7defe",
+                      "inverse-surface": "#322d45",
+                      "inverse-primary": "#c5c0ff",
+                      "primary-container": "#5b4fcf",
+                      "surface-container-low": "#f8f1ff",
+                      "on-tertiary-fixed-variant": "#005048",
+                      "on-secondary-fixed": "#3d0600",
+                      "error": "#ba1a1a",
+                      "on-error": "#ffffff",
+                      "on-tertiary": "#ffffff",
+                      "error-container": "#ffdad6",
+                      "on-secondary-fixed-variant": "#8c1900",
+                      "surface": "#FFFFFF",
+                      "primary-fixed": "#e4dfff",
+                      "background": "#FBF9FF",
+                      "surface-tint": "#574acb",
+                      "secondary-fixed": "#ffdad2"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "header-height": "56px",
+                      "screen-padding": "20px",
+                      "base": "8px",
+                      "vertical-gap": "16px"
+              },
+              "fontFamily": {
+                      "headline-h2": ["Plus Jakarta Sans"],
+                      "body-md": ["Plus Jakarta Sans"],
+                      "headline-h1": ["Plus Jakarta Sans"],
+                      "label-button": ["Plus Jakarta Sans"],
+                      "caption": ["Plus Jakarta Sans"]
+              },
+              "fontSize": {
+                      "headline-h2": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                      "body-md": ["15px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "headline-h1": ["22px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                      "label-button": ["16px", {"lineHeight": "1.0", "fontWeight": "600"}],
+                      "caption": ["13px", {"lineHeight": "1.4", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+      </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background">
+<!-- Decorative Background Shaders -->
+<div class="fixed inset-0 pointer-events-none overflow-hidden">
+<div class="gradient-sphere absolute -top-20 -left-20 w-80 h-80 rounded-full bg-primary-fixed opacity-40"></div>
+<div class="gradient-sphere absolute top-1/2 -right-40 w-96 h-96 rounded-full bg-secondary-fixed opacity-30"></div>
+<div class="gradient-sphere absolute -bottom-20 left-1/4 w-72 h-72 rounded-full bg-tertiary-fixed opacity-20"></div>
+</div>
+<!-- Main Content Canvas -->
+<main class="relative z-10 min-h-screen flex flex-col items-center justify-between py-12 px-screen-padding text-center">
+<!-- Top Empty Space for Balance -->
+<div class="w-full h-12"></div>
+<!-- Center Identity Section -->
+<div class="flex flex-col items-center max-w-sm w-full gap-8">
+<!-- Icon Badge -->
+<div class="animate-float">
+<div class="relative w-48 h-48 rounded-full bg-surface shadow-xl flex items-center justify-center border border-border">
+<!-- Glow effect behind icon -->
+<div class="absolute inset-4 rounded-full bg-primary-container opacity-10 animate-pulse"></div>
+<span class="material-symbols-outlined text-[80px] text-primary" style="font-variation-settings: 'FILL' 1;">
+                        explore
+                    </span>
+</div>
+</div>
+<!-- Headlines -->
+<div class="space-y-4">
+<h1 class="font-headline-h1 text-headline-h1 text-on-background tracking-tight">
+                    나를 모르는 나를 위한<br/>취미 발굴
+                </h1>
+<p class="font-body-md text-body-md text-text-secondary">
+                    9가지 질문으로 당신의 취미 DNA를 찾아드려요
+                </p>
+</div>
+</div>
+<!-- Bottom Action & Navigation Section -->
+<div class="w-full max-w-sm flex flex-col items-center gap-8">
+<!-- Progress Dots -->
+<div class="flex gap-2">
+<div class="w-8 h-2 rounded-full bg-primary"></div>
+<div class="w-2 h-2 rounded-full bg-outline-variant"></div>
+<div class="w-2 h-2 rounded-full bg-outline-variant"></div>
+<div class="w-2 h-2 rounded-full bg-outline-variant"></div>
+</div>
+<!-- CTA Cluster -->
+<div class="w-full space-y-4">
+<button class="w-full h-[52px] bg-secondary-container text-on-primary font-label-button text-label-button rounded-xl shadow-lg active:scale-95 transition-all hover:opacity-90 flex items-center justify-center gap-2" onclick="handleStart()">
+                    시작하기
+                    <span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+<p class="font-caption text-caption text-text-muted">
+                    앱 설치 없이 바로 시작해요
+                </p>
+</div>
+</div>
+</main>
+<!-- Micro-interaction Script -->
+<script>
+        function handleStart() {
+            // Subtle feedback before navigation intent
+            const btn = event.currentTarget;
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span>';
+            setTimeout(() => {
+                console.log("Onboarding sequence started...");
+                // In a real app, this would trigger the first question
+            }, 800);
+        }
+
+        // Initialize parallax effect for background spheres
+        document.addEventListener('mousemove', (e) => {
+            const spheres = document.querySelectorAll('.gradient-sphere');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            spheres.forEach((sphere, index) => {
+                const speed = (index + 1) * 20;
+                sphere.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+            });
+        });
+    </script>
+</body></html>

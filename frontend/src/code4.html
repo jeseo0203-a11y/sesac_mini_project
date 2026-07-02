@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<html class="light" lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HobbyDNA - Question 4A</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary": "#ffffff",
+                    "text-muted": "#A6A1B8",
+                    "surface-container-highest": "#e7defe",
+                    "tertiary": "#00554b",
+                    "outline": "#787585",
+                    "on-surface-variant": "#474554",
+                    "on-primary-fixed-variant": "#3e2fb2",
+                    "on-primary-container": "#e0dbff",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-bright": "#fdf7ff",
+                    "outline-variant": "#c8c4d6",
+                    "secondary": "#ae3115",
+                    "tertiary-fixed": "#71f8e4",
+                    "tertiary-container": "#006f64",
+                    "tertiary-fixed-dim": "#4fdbc8",
+                    "on-tertiary-fixed": "#00201c",
+                    "on-surface": "#1d182f",
+                    "on-secondary-container": "#640f00",
+                    "on-tertiary-container": "#6df4e1",
+                    "surface-dim": "#dfd5f5",
+                    "primary-fixed-dim": "#c5c0ff",
+                    "on-secondary": "#ffffff",
+                    "surface-container": "#f2ebff",
+                    "secondary-fixed-dim": "#ffb4a3",
+                    "inverse-on-surface": "#f5eeff",
+                    "text-secondary": "#6B6580",
+                    "on-primary-fixed": "#140067",
+                    "skeleton": "#F0EDF9",
+                    "border": "#EAE6F5",
+                    "selection-bg": "#F0EDFF",
+                    "secondary-container": "#fd6a49",
+                    "primary": "#4234b6",
+                    "on-error-container": "#93000a",
+                    "surface-container-high": "#ede4ff",
+                    "on-background": "#1d182f",
+                    "surface-variant": "#e7defe",
+                    "inverse-surface": "#322d45",
+                    "inverse-primary": "#c5c0ff",
+                    "primary-container": "#5b4fcf",
+                    "surface-container-low": "#f8f1ff",
+                    "on-tertiary-fixed-variant": "#005048",
+                    "on-secondary-fixed": "#3d0600",
+                    "error": "#ba1a1a",
+                    "on-error": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "on-secondary-fixed-variant": "#8c1900",
+                    "surface": "#FFFFFF",
+                    "primary-fixed": "#e4dfff",
+                    "background": "#FBF9FF",
+                    "surface-tint": "#574acb",
+                    "secondary-fixed": "#ffdad2"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "header-height": "56px",
+                    "screen-padding": "20px",
+                    "base": "8px",
+                    "vertical-gap": "16px"
+            },
+            "fontFamily": {
+                    "headline-h2": ["Plus Jakarta Sans"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "headline-h1": ["Plus Jakarta Sans"],
+                    "label-button": ["Plus Jakarta Sans"],
+                    "caption": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "headline-h2": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "body-md": ["15px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-h1": ["22px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "label-button": ["16px", {"lineHeight": "1.0", "fontWeight": "600"}],
+                    "caption": ["13px", {"lineHeight": "1.4", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .option-card.active {
+            border-color: #4234b6;
+            border-width: 2px;
+            background-color: #F0EDFF;
+        }
+        .option-card.active .check-icon {
+            opacity: 1;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col">
+<!-- Top Progress Bar (Mandatory Minimalist 4px Bar) -->
+<div class="fixed top-0 left-0 w-full h-[4px] bg-skeleton z-[60]">
+<div class="h-full bg-primary transition-all duration-500 ease-out" style="width: 44.44%;"></div>
+</div>
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 px-screen-padding flex items-center justify-between h-[56px] bg-background">
+<button class="flex items-center justify-center w-10 h-10 -ml-2 text-primary hover:opacity-80 active:scale-95 transition-all">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="font-headline-h1 text-headline-h1 text-primary">HobbyDNA</h1>
+<div class="w-10"></div> <!-- Spacer for balance -->
+</header>
+<!-- Content Canvas -->
+<main class="flex-1 mt-[56px] px-screen-padding pb-[100px] flex flex-col">
+<!-- Category & Question Section -->
+<div class="pt-8 mb-10">
+<span class="text-secondary font-label-button text-caption uppercase tracking-wider mb-2 block">핵심 프로필</span>
+<h2 class="font-headline-h1 text-[28px] leading-tight text-on-surface mb-4">언제 시간이 나세요?</h2>
+<p class="text-text-secondary font-body-md">가장 여유롭게 취미를 즐길 수 있는 시간대를 모두 선택해주세요. (중복 선택 가능)</p>
+</div>
+<!-- Animated Visual Accent (Emotional Context) -->
+<div class="relative w-full h-48 mb-10 rounded-2xl overflow-hidden bg-surface shadow-sm border border-border">
+
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="text-center p-6 bg-white/40 backdrop-blur-md rounded-xl border border-white/50">
+<span class="material-symbols-outlined text-[40px] text-primary mb-2" style="font-variation-settings: 'FILL' 1;">schedule</span>
+<p class="font-headline-h2 text-primary">나만의 시간 찾기</p>
+</div>
+</div>
+</div>
+<!-- Selection Cards (Multi-select) -->
+<div class="flex flex-col gap-vertical-gap" id="options-container">
+<!-- Option 1 -->
+<button class="option-card group flex items-center justify-between h-[64px] px-6 rounded-[14px] bg-surface border border-border transition-all duration-200 active:scale-[0.98]" onclick="toggleOption(this)">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-text-muted group-[.active]:text-primary">nights_stay</span>
+<span class="font-label-button text-on-surface group-[.active]:text-primary">평일 저녁</span>
+</div>
+<div class="check-icon opacity-0 w-6 h-6 rounded-full bg-primary flex items-center justify-center text-white transition-opacity">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</div>
+</button>
+<!-- Option 2 -->
+<button class="option-card group flex items-center justify-between h-[64px] px-6 rounded-[14px] bg-surface border border-border transition-all duration-200 active:scale-[0.98]" onclick="toggleOption(this)">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-text-muted group-[.active]:text-primary">light_mode</span>
+<span class="font-label-button text-on-surface group-[.active]:text-primary">평일 낮</span>
+</div>
+<div class="check-icon opacity-0 w-6 h-6 rounded-full bg-primary flex items-center justify-center text-white transition-opacity">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</div>
+</button>
+<!-- Option 3 -->
+<button class="option-card group flex items-center justify-between h-[64px] px-6 rounded-[14px] bg-surface border border-border transition-all duration-200 active:scale-[0.98]" onclick="toggleOption(this)">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-text-muted group-[.active]:text-primary">event_available</span>
+<span class="font-label-button text-on-surface group-[.active]:text-primary">주말</span>
+</div>
+<div class="check-icon opacity-0 w-6 h-6 rounded-full bg-primary flex items-center justify-center text-white transition-opacity">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</div>
+</button>
+</div>
+</main>
+<!-- Fixed Bottom CTA (Primary CTA Style) -->
+<div class="fixed bottom-0 left-0 w-full p-screen-padding bg-gradient-to-t from-background via-background to-transparent pt-8 pb-10">
+<button class="w-full h-[52px] bg-secondary text-white rounded-full font-label-button shadow-lg shadow-secondary/20 active:scale-95 transition-all opacity-50 cursor-not-allowed" disabled="" id="next-button">
+            다음
+        </button>
+</div>
+<!-- Script for interaction logic -->
+<script>
+        function toggleOption(element) {
+            element.classList.toggle('active');
+            updateCTAState();
+        }
+
+        function updateCTAState() {
+            const activeOptions = document.querySelectorAll('.option-card.active');
+            const nextBtn = document.getElementById('next-button');
+            
+            if (activeOptions.length > 0) {
+                nextBtn.disabled = false;
+                nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                nextBtn.classList.add('hover:opacity-90');
+            } else {
+                nextBtn.disabled = true;
+                nextBtn.classList.add</script></body></html>

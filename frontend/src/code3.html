@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HobbyDNA - Survey Q3</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .progress-bar-transition {
+            transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .option-card-active {
+            border-color: #4234b6 !important;
+            background-color: #F0EDFF !important;
+            border-width: 2px !important;
+        }
+        .option-card-active .icon-container {
+            transform: scale(1.1);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col overflow-x-hidden">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 left-0 w-full z-50 px-screen-padding flex items-center justify-between h-[56px] bg-background">
+<button aria-label="Go back" class="flex items-center justify-center w-10 h-10 -ml-2 text-primary hover:opacity-80 transition-opacity active:scale-95">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="font-headline-h1 text-headline-h1 text-primary">HobbyDNA</h1>
+<div class="w-10"></div> <!-- Spacer for centering -->
+</header>
+<!-- Progress Indicator -->
+<div class="fixed top-[56px] left-0 w-full h-1 bg-skeleton z-50">
+<div class="h-full bg-primary progress-bar-transition" style="width: 33.33%;"></div>
+</div>
+<!-- Main Content Canvas -->
+<main class="flex-1 mt-[72px] px-screen-padding pb-[100px] max-w-lg mx-auto w-full">
+<!-- Content Header -->
+<div class="pt-8 pb-10">
+<span class="font-caption text-caption text-text-muted mb-2 block uppercase tracking-wider">핵심 프로필</span>
+<h2 class="font-headline-h1 text-headline-h1 text-on-surface mb-3 leading-tight">
+                몸은 얼마나 움직이고 싶으세요?
+            </h2>
+<p class="font-body-md text-body-md text-text-secondary">
+                당신의 활동 성향에 딱 맞는 취미를 찾아드릴게요.
+            </p>
+</div>
+<!-- Survey Options (Selection Cards) -->
+<div class="space-y-vertical-gap" id="options-container">
+<!-- Option 1 -->
+<button class="w-full text-left p-5 rounded-xl border border-border bg-surface transition-all duration-200 flex items-center gap-4 group active:scale-[0.98]" onclick="selectOption(this)">
+<div class="w-12 h-12 flex items-center justify-center bg-surface-container rounded-lg text-2xl transition-transform duration-300 icon-container">
+                    🪑
+                </div>
+<span class="font-label-button text-label-button text-on-surface">거의 안 움직이는 게 좋아요</span>
+</button>
+<!-- Option 2 -->
+<button class="w-full text-left p-5 rounded-xl border border-border bg-surface transition-all duration-200 flex items-center gap-4 group active:scale-[0.98]" onclick="selectOption(this)">
+<div class="w-12 h-12 flex items-center justify-center bg-surface-container rounded-lg text-2xl transition-transform duration-300 icon-container">
+                    🚶
+                </div>
+<span class="font-label-button text-label-button text-on-surface">가볍게 몸 푸는 정도</span>
+</button>
+<!-- Option 3 -->
+<button class="w-full text-left p-5 rounded-xl border border-border bg-surface transition-all duration-200 flex items-center gap-4 group active:scale-[0.98]" onclick="selectOption(this)">
+<div class="w-12 h-12 flex items-center justify-center bg-surface-container rounded-lg text-2xl transition-transform duration-300 icon-container">
+                    🏃
+                </div>
+<span class="font-label-button text-label-button text-on-surface">땀나게 움직이고 싶어요</span>
+</button>
+<!-- Option 4 -->
+<button class="w-full text-left p-5 rounded-xl border border-border bg-surface transition-all duration-200 flex items-center gap-4 group active:scale-[0.98]" onclick="selectOption(this)">
+<div class="w-12 h-12 flex items-center justify-center bg-surface-container rounded-lg text-2xl transition-transform duration-300 icon-container">
+                    🔥
+                </div>
+<span class="font-label-button text-label-button text-on-surface">숨차게 격렬한 것도 좋아요</span>
+</button>
+</div>
+<!-- Atmospheric Image -->
+<div class="mt-12 rounded-2xl overflow-hidden relative h-48 group">
+<div class="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent z-10"></div>
+<div class="w-full h-full bg-cover bg-center transition-transform duration-1000 group-hover:scale-105" data-alt="A clean, minimalist high-key photograph of a modern fitness studio space with soft natural morning light streaming through large windows. The scene features a sleek wooden floor and a single yoga mat in the center, reflecting a peaceful and energetic atmosphere. The colors are dominated by soft purples, crisp whites, and warm wood tones to match a premium corporate UI aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCjCr74saNk5aGiszDVUk65nJs0aSJjd0XXXJe64HzZVHxEydNWeuamjkup2_7xa7Z-Hk9E4XyRczE57-uVXlbO6G81oFjziQ-9H6C0-EGo1vffaemjIR-hHeW1rzIOyMUGFxCO900SA9M52Hk4INKVOrRi9fVKhLP6VRKqwEke8FIeEdDgOsePtDfZ_0oyTQ3RIN-eQ7UFyScFfk_BKlCt6AEDUjCgmJoV3GSSY1FSHE6Ywklonxi2RvXim-uvpoWuf4jpDl4sg8vq')"></div>
+<div class="absolute bottom-4 left-4 z-20">
+<p class="text-white font-caption text-caption opacity-90">당신의 DNA는 활동적인 에너지를 기다리고 있을지도 몰라요.</p>
+</div>
+</div>
+</main>
+<!-- Fixed Bottom CTA -->
+<div class="fixed bottom-0 left-0 w-full p-screen-padding bg-background/80 backdrop-blur-md z-40">
+<button class="w-full h-[52px] bg-secondary text-on-secondary font-label-button text-label-button rounded-xl flex items-center justify-center shadow-lg transition-all duration-200 opacity-50 cursor-not-allowed active:scale-95" disabled="" id="next-btn">
+            다음
+        </button>
+</div>
+<script>
+        function selectOption(element) {
+            // Remove active class from all options
+            const container = document.getElementById('options-container');
+            const options = container.querySelectorAll('button');
+            options.forEach(opt => {
+                opt.classList.remove('option-card-active');
+            });
+
+            // Add active class to clicked option
+            element.classList.add('option-card-active');
+
+            // Enable CTA button
+            const nextBtn = document.getElementById('next-btn');
+            nextBtn.disabled = false;
+            nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            nextBtn.classList.add('hover:opacity-90', 'hover:translate-y-[-2px]');
+
+            // Optional: Soft vibration for mobile
+            if (window.navigator.vibrate) {
+                window.navigator.vibrate(10);
+            }
+        }
+
+        // Add micro-interaction to CTA
+        document.getElementById('next-btn').addEventListener('click', function() {
+            if (!this.disabled) {
+                // Mock transition effect
+                this.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span>';
+                setTimeout(() => {
+                    this.innerHTML = '다음';
+                    // In a real app, logic to go to Q4 would be here
+                }, 800);
+            }
+        });
+    </script>
+</body></html>

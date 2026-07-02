@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&amp;family=Be+Vietnam+Pro:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary": "#006a68",
+                    "primary": "#a8381e",
+                    "surface-container-low": "#fff0ed",
+                    "background": "#fff8f6",
+                    "secondary": "#3b6754",
+                    "on-secondary-fixed": "#002115",
+                    "on-secondary-fixed-variant": "#234f3d",
+                    "on-primary-container": "#5c0e00",
+                    "surface-dim": "#ecd5d0",
+                    "surface": "#FBF7F2", // Custom Brand Surface
+                    "inverse-primary": "#ffb4a3",
+                    "on-error-container": "#93000a",
+                    "error-container": "#ffdad6",
+                    "on-primary": "#ffffff",
+                    "on-background": "#251916",
+                    "inverse-surface": "#3b2d2a",
+                    "on-tertiary-container": "#003332",
+                    "secondary-fixed": "#bdedd5",
+                    "primary-fixed-dim": "#ffb4a3",
+                    "error": "#ba1a1a",
+                    "surface-bright": "#fff8f6",
+                    "on-tertiary": "#ffffff",
+                    "secondary-fixed-dim": "#a2d1ba",
+                    "tertiary-fixed-dim": "#5cd9d6",
+                    "primary-container": "#ef6c4d",
+                    "on-surface": "#251916",
+                    "on-error": "#ffffff",
+                    "on-secondary-container": "#416d5a",
+                    "outline": "#8b716b",
+                    "on-primary-fixed-variant": "#872108",
+                    "surface-container-highest": "#f4ded9",
+                    "on-tertiary-fixed": "#00201f",
+                    "surface-container-high": "#fae3de",
+                    "on-primary-fixed": "#3d0700",
+                    "inverse-on-surface": "#ffede9",
+                    "surface-container": "#ffe9e4",
+                    "secondary-container": "#bdedd5",
+                    "on-secondary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed": "#ffdad2",
+                    "on-surface-variant": "#58423c",
+                    "surface-tint": "#a8381e",
+                    "surface-variant": "#f4ded9",
+                    "outline-variant": "#dfc0b8",
+                    "tertiary-fixed": "#7bf6f3",
+                    "tertiary-container": "#00a5a3",
+                    "on-tertiary-fixed-variant": "#00504f",
+                    "sage": "#6E9B86",
+                    "hygge-border": "#ECE3D8",
+                    "hygge-warm": "#4A423B"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack_gap_sm": "8px",
+                    "edge_margin": "20px",
+                    "stack_gap_lg": "24px",
+                    "stack_gap_md": "16px",
+                    "section_padding": "32px",
+                    "container_max_width": "480px"
+            },
+            "fontFamily": {
+                    "body-md": ["Be Vietnam Pro"],
+                    "body-lg": ["Be Vietnam Pro"],
+                    "body-sm": ["Be Vietnam Pro"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "label-sm": ["Be Vietnam Pro"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "label-md": ["Be Vietnam Pro"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-sm": ["15px", {"lineHeight": "22px", "fontWeight": "400"}], // Adjusted for request
+                    "headline-md": ["20px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      body {
+        background-color: #FBF7F2;
+        color: #4A423B;
+        -webkit-font-smoothing: antialiased;
+      }
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .safe-shadow {
+        box-shadow: 0px 4px 20px rgba(74, 66, 59, 0.05);
+      }
+      .soft-gradient {
+        background: linear-gradient(180deg, rgba(110, 155, 134, 0.05) 0%, rgba(251, 247, 242, 0) 100%);
+      }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen items-center overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="sticky top-0 z-50 flex justify-between items-center w-full px-edge_margin max-w-container_max_width mx-auto bg-surface h-[56px] border-b border-outline-variant">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sage">arrow_back</span>
+<h1 class="font-headline-md text-[20px] font-bold text-primary">할래말래</h1>
+</div>
+<div class="flex items-center">
+<span class="material-symbols-outlined text-[#ECE3D8]" data-icon="bookmark">bookmark</span>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="w-full max-w-container_max_width mx-auto flex-1 flex flex-col items-center px-edge_margin py-section_padding text-center">
+<!-- Empathy Hero Section -->
+<div class="w-full py-12 flex flex-col items-center space-y-4 animate-fade-in">
+<div class="w-24 h-24 mb-6 relative">
+<div class="absolute inset-0 bg-sage opacity-10 rounded-full animate-pulse"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-sage text-5xl" style="font-variation-settings: 'wght' 300;">cloud</span>
+</div>
+</div>
+<h2 class="font-headline-md text-headline-md text-hygge-warm">오늘은 좀 많이 지치셨나 봐요</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-[280px] leading-relaxed">
+                지금은 취미를 찾기보다,<br/>잠깐 쉬어가도 괜찮아요
+            </p>
+</div>
+<!-- Atmospheric Visual Spacer -->
+<div class="w-full h-48 rounded-3xl overflow-hidden relative mb-stack_gap_lg">
+<div class="w-full h-full bg-cover bg-center" data-alt="A serene and minimalist photograph of a soft morning mist over a calm lake. The colors are muted sages and warm beiges, evoking a sense of deep tranquility and silence. No people are visible, prioritizing a peaceful solitude. The lighting is diffused and natural, matching a high-end minimalist lifestyle aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAXB5vBTSkLBABkNe_9PcR5ugYglAyhzh6FqWJPIBpv7bgxr57Cn1p1l5J3s4qtf3DXT_G8k8lEP03ZH-39MX7uoaQ3KNVnjQjk8ex1JK8Q7lCs9kg-tEGxK5SrER4iesc5cOgHU1t3Ng2lXyiLWJst-gkyFOI8mnuFcYXrIIVYcnfIcoHLdktC0kkhghBJBdS2m9tNYWuFTzxrgfOOQexCf-BSHUhGqbK1efhBFG-1ldfI9SC8N-90Op5p5o-A0HeMRVZdm97mQY9V')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent"></div>
+</div>
+<!-- Expert Support Card -->
+<section class="w-full mt-auto mb-stack_gap_lg">
+<div class="bg-surface-container-lowest rounded-[16px] p-6 safe-shadow border border-hygge-border flex flex-col items-center gap-stack_gap_md">
+<div class="w-10 h-10 bg-secondary-container rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-xl">favorite</span>
+</div>
+<p class="font-label-md text-on-surface-variant text-center px-4">
+                    도움이 필요하다면 전문가와 대화해보세요
+                </p>
+<button class="w-full bg-[#FFFFFF] border-[1.5px] border-hygge-border text-hygge-warm py-3 rounded-[12px] font-label-md hover:bg-surface-container-low transition-colors active:scale-95 duration-150">
+                    도움받을 수 있는 곳 보기
+                </button>
+</div>
+</section>
+<!-- Low Stakes Encouragement -->
+<div class="mb-section_padding">
+<p class="text-[13px] text-on-surface-variant opacity-60 font-body-sm italic">
+                나중에 마음이 조금 더 편안해졌을 때, 다시 만나요.
+            </p>
+</div>
+</main>
+<!-- Navigation Suppressed as per Task Requirements -->
+<script>
+        // Subtle floating interaction for the cloud icon
+        const cloud = document.querySelector('.material-symbols-outlined.text-5xl');
+        if (cloud) {
+            let angle = 0;
+            function animate() {
+                angle += 0.02;
+                const y = Math.sin(angle) * 8;
+                cloud.parentElement.style.transform = `translateY(${y}px)`;
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+    </script>
+</body></html>

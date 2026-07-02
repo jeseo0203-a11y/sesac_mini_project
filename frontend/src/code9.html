@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+
+<html class="light" lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>할래말래 - 적응형 대화</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&amp;family=Be+Vietnam+Pro:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#ffdad6",
+                        "tertiary-container": "#00a5a3",
+                        "secondary-fixed-dim": "#a2d1ba",
+                        "on-primary-fixed-variant": "#872108",
+                        "surface-dim": "#ecd5d0",
+                        "surface-container-high": "#fae3de",
+                        "on-secondary": "#ffffff",
+                        "surface-variant": "#f4ded9",
+                        "inverse-on-surface": "#ffede9",
+                        "background": "#fff8f6",
+                        "tertiary": "#006a68",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed": "#bdedd5",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-container": "#ef6c4d",
+                        "surface-tint": "#a8381e",
+                        "primary": "#a8381e",
+                        "on-tertiary-fixed": "#00201f",
+                        "on-background": "#251916",
+                        "tertiary-fixed": "#7bf6f3",
+                        "surface-container": "#ffe9e4",
+                        "on-secondary-container": "#416d5a",
+                        "on-primary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-primary-container": "#5c0e00",
+                        "on-primary-fixed": "#3d0700",
+                        "secondary-container": "#bdedd5",
+                        "surface-bright": "#fff8f6",
+                        "on-secondary-fixed-variant": "#234f3d",
+                        "surface-container-low": "#fff0ed",
+                        "outline": "#8b716b",
+                        "on-secondary-fixed": "#002115",
+                        "on-surface": "#251916",
+                        "primary-fixed-dim": "#ffb4a3",
+                        "inverse-surface": "#3b2d2a",
+                        "secondary": "#3b6754",
+                        "surface-container-highest": "#f4ded9",
+                        "outline-variant": "#dfc0b8",
+                        "on-tertiary-fixed-variant": "#00504f",
+                        "inverse-primary": "#ffb4a3",
+                        "primary-fixed": "#ffdad2",
+                        "on-surface-variant": "#58423c",
+                        "on-tertiary-container": "#003332",
+                        "surface": "#fff8f6",
+                        "tertiary-fixed-dim": "#5cd9d6",
+                        "on-tertiary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "brand-warm": "#FBF7F2",
+                        "brand-border": "#ECE3D8",
+                        "brand-primary": "#EF6C4D",
+                        "brand-text-dark": "#2A2521",
+                        "brand-text-main": "#4A423B",
+                        "brand-text-sub": "#8B8078",
+                        "brand-bg-secondary": "#F3ECE3",
+                        "brand-bg-user": "#FCE9E1"
+                    },
+                    "spacing": {
+                        "stack_gap_md": "16px",
+                        "edge_margin": "20px",
+                        "stack_gap_sm": "8px",
+                        "stack_gap_lg": "24px",
+                        "section_padding": "32px",
+                        "container_max_width": "480px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Be Vietnam Pro", "sans-serif"],
+                        "headline-lg": ["Plus Jakarta Sans", "sans-serif"],
+                        "body-sm": ["Be Vietnam Pro", "sans-serif"],
+                        "label-sm": ["Be Vietnam Pro", "sans-serif"],
+                        "label-md": ["Be Vietnam Pro", "sans-serif"],
+                        "body-lg": ["Be Vietnam Pro", "sans-serif"],
+                        "headline-md": ["Plus Jakarta Sans", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #FBF7F2;
+            font-family: 'Be Vietnam Pro', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        .chat-container {
+            height: calc(100vh - 56px - 76px); /* Viewport - Header - InputBar */
+            overflow-y: auto;
+            scrollbar-width: none;
+        }
+        .chat-container::-webkit-scrollbar {
+            display: none;
+        }
+        .bubble-ai {
+            border-top-left-radius: 4px;
+        }
+        .bubble-user {
+            border-top-right-radius: 4px;
+        }
+        .app-container {
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #FFFFFF;
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body class="text-brand-text-main">
+<div class="app-container shadow-sm">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] h-[56px] bg-white z-50 flex items-center justify-between border-b border-brand-border px-edge_margin">
+<h1 class="text-[20px] font-bold text-brand-primary leading-none" style="font-family: 'Pretendard', sans-serif;">할래말래</h1>
+<button class="w-[40px] h-[40px] flex items-center justify-center text-brand-text-sub hover:opacity-80 transition-opacity active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined" data-icon="bookmark">bookmark</span>
+</button>
+</header>
+<!-- Content Area -->
+<main class="pt-[80px] pb-[76px] flex-1 flex flex-col px-edge_margin">
+<!-- Information Banner -->
+<section class="mb-stack_gap_lg">
+<div class="bg-brand-bg-secondary rounded-lg py-3 px-4 text-center">
+<p class="text-[13px] font-normal text-brand-text-main leading-snug">왜 이걸 여쭤볼까요?</p>
+</div>
+</section>
+<!-- Chat Stream -->
+<div class="chat-container flex flex-col space-y-4">
+<!-- AI Message -->
+<div class="flex flex-col items-start max-w-[85%]">
+<div class="bg-brand-bg-secondary bubble-ai rounded-[16px] py-3 px-4">
+<p class="text-[15px] leading-[1.6] text-brand-text-main">
+                            몸은 편하게, 사람들과는 함께하고 싶으신 거네요. 최근에 사람 만날 시간이 부족했던 걸까요?
+                        </p>
+</div>
+</div>
+<!-- User Message -->
+<div class="flex flex-col items-end w-full">
+<div class="bg-brand-bg-user bubble-user rounded-[16px] py-3 px-4 max-w-[85%]">
+<p class="text-[15px] leading-[1.6] text-brand-text-main">
+                            요즘 야근이 많아서요
+                        </p>
+</div>
+</div>
+<!-- AI Thinking (Micro-interaction hint) -->
+<div class="flex items-start space-x-1 py-2 opacity-60">
+<div class="w-1.5 h-1.5 bg-brand-text-sub rounded-full animate-bounce" style="animation-delay: 0s"></div>
+<div class="w-1.5 h-1.5 bg-brand-text-sub rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+<div class="w-1.5 h-1.5 bg-brand-text-sub rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
+</div>
+</div>
+</main>
+<!-- Input Bar (Sticky Bottom) -->
+<div class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] bg-white border-t border-brand-border py-3 px-edge_margin z-50">
+<div class="relative flex items-center">
+<input class="w-full h-[48px] bg-white border-[1.5px] border-brand-border rounded-[12px] pl-4 pr-12 text-[15px] text-brand-text-main placeholder:text-brand-text-sub focus:outline-none focus:border-brand-primary transition-colors" placeholder="메시지를 입력하세요..." type="text"/>
+<button class="absolute right-3 w-[32px] h-[32px] flex items-center justify-center text-brand-primary active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="send" style="font-variation-settings: 'FILL' 1;">send</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Background for wide viewports -->
+<div class="fixed inset-0 -z-10 bg-brand-warm hidden md:block"></div>
+<script>
+        // Simple micro-interaction for the send button and input focus
+        const input = document.querySelector('input');
+        const sendBtn = document.querySelector('button .material-symbols-outlined[data-icon="send"]');
+
+        input.addEventListener('input', (e) => {
+            if (e.target.value.trim().length > 0) {
+                sendBtn.style.opacity = '1';
+            } else {
+                sendBtn.style.opacity = '0.5';
+            }
+        });
+
+        // Initialize icon opacity
+        sendBtn.style.opacity = '0.5';
+        sendBtn.parentElement.style.transition = 'all 0.2s ease';
+    </script>
+</body></html>
