@@ -6,7 +6,10 @@ import jwt  # PyJWT
 from fastapi import APIRouter, Depends, HTTPException, Header
 from fastapi.responses import RedirectResponse
 
+from repositories.user_repository import UserRepository
+
 router = APIRouter()
+_user_repo = UserRepository()
 
 GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID", "")
 GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET", "")
@@ -62,6 +65,8 @@ def google_callback(code: str = ""):
         if not access:
             raise HTTPException(401, f"토큰 교환 실패: {tok}")
         info = c.get(GOOGLE_USERINFO, headers={"Authorization": f"Bearer {access}"}).json()
+    # 로그인 시점에 유저 기본정보(이메일/이름/프로필사진)를 Postgres에 저장(upsert)
+    _user_repo.upsert(info["email"], info.get("name", ""), info.get("picture", ""))
     token = make_jwt({"email": info["email"], "name": info.get("name", ""),
                       "picture": info.get("picture", "")})
     # 프론트로 토큰 전달(URL hash) → 프론트가 localStorage 저장
