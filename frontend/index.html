@@ -25,7 +25,7 @@
        background:linear-gradient(160deg,#efe7fb,#e7ecfb); min-height:100vh;}
   .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400;}
   /* 폰 프레임 (데스크톱 A안: 중앙 정렬) */
-  #app{max-width:440px; margin:0 auto; background:var(--surface); min-height:100vh;
+  #app{margin:0 auto; background:var(--surface); min-height:100vh;
        position:relative; box-shadow:var(--shadow-lg); overflow:hidden;}
   .screen{display:none; padding:0 20px 96px; animation:fade .25s ease;}
   .screen.on{display:block;}
@@ -170,8 +170,31 @@
   .tab.on .material-symbols-outlined{font-variation-settings:'FILL' 1;}
 
   /* 로그인 */
-  #login{display:flex; flex-direction:column; justify-content:center; min-height:100vh; padding:32px; text-align:center; gap:14px;}
-  #login .logo{font-size:52px;}
+  #login{display:flex; align-items:center; justify-content:center; min-height:100vh; padding:20px; background:#efeafc;}
+  #login .lg-frame{width:100%; max-width:1180px; background:linear-gradient(160deg,#efe7fb 0%,#f2ecfb 45%,#fdf2f4 100%); border-radius:28px; padding-bottom:44px; box-shadow:0 22px 60px rgba(80,40,140,.13); overflow:hidden;}
+  #login .lg-top{display:flex; align-items:center; justify-content:space-between; padding:20px 34px; background:rgba(255,255,255,.5);}
+  #login .lg-brand{font-family:var(--head); font-weight:800; font-size:25px; color:#33254f; letter-spacing:-.02em;}
+  /* #login .lg-nav{display:flex; align-items:center; gap:28px; color:#5b4b7a; font-size:15px;} */
+  /* #login .lg-nav b{color:#2e2147; font-weight:700;} */
+  /* #login .lg-nav .lg-ava{width:36px; height:36px; border-radius:50%; border:1.5px solid #bcaadf; display:flex; align-items:center; justify-content:center; color:#7c5bbd; font-size:20px;} */
+  #login .lg-body{display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:44px; padding:58px 56px 26px;}
+  #login .lg-card{flex:0 0 358px; max-width:358px; background:rgba(255,255,255,.68); border-radius:26px; padding:44px 30px; text-align:center; box-shadow:0 16px 42px rgba(120,80,170,.15);}
+  #login .lg-orb{width:188px; height:188px; border-radius:50%; margin:0 auto 26px; background:radial-gradient(circle at 38% 32%,#efe6fb,#f6d8de 90%); display:flex; align-items:center; justify-content:center;}
+  #login .lg-orb .material-symbols-outlined{font-size:62px; color:#fff;}
+  #login .lg-tags{display:flex; gap:10px; justify-content:center; margin-bottom:16px;}
+  #login .lg-tags span{background:#e7dcf7; color:#6a53a1; font-size:13px; font-weight:600; padding:6px 15px; border-radius:20px;}
+  #login .lg-cap{color:#9385ad; font-size:14px; margin:0;}
+  #login .lg-right{flex:0 0 440px; max-width:460px; text-align:left;}
+  #login .lg-pill{display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,.82); color:#5b4b7a; font-size:13px; font-weight:600; padding:8px 16px; border-radius:22px; margin-bottom:22px;}
+  #login .lg-pill .material-symbols-outlined{font-size:16px;}
+  #login .lg-h{font-family:var(--head); font-weight:800; font-size:46px; line-height:1.18; color:#2c2044; letter-spacing:-.02em; margin:0 0 22px;}
+  #login .lg-h .soft{color:#a894cf;}
+  #login .lg-sub{color:#6f6088; font-size:16px; line-height:1.6; margin:0 0 30px; max-width:430px;}
+  #login .lg-start{display:inline-flex; align-items:center; gap:10px; border:none; cursor:pointer; color:#fff; font-family:var(--head); font-size:20px; font-weight:700; padding:18px 46px; border-radius:40px; background:linear-gradient(90deg,#907cd1,#6d599f); box-shadow:0 14px 32px rgba(110,80,170,.36);}
+  #login .lg-start .material-symbols-outlined{font-size:22px;}
+  #login .lg-note{color:#9385ad; font-size:13px; margin-top:16px;}
+  #login .lg-dev{display:inline-block; margin-top:12px; color:#b3a6cc; font-size:12px; text-decoration:none;}
+  @media(max-width:780px){ #login .lg-top{padding:16px 20px;} #login .lg-body{padding:34px 22px; gap:28px;} #login .lg-right,#login .lg-card{flex-basis:100%; max-width:100%;} #login .lg-h{font-size:34px;} }
   .toast{position:fixed; bottom:88px; left:50%; transform:translateX(-50%); background:var(--on-surface); color:#fff;
          padding:10px 18px; border-radius:var(--r-pill); font-size:13.5px; z-index:100; opacity:0; transition:.25s; pointer-events:none; white-space:nowrap;}
   .toast.show{opacity:1;}
@@ -181,11 +204,32 @@
 <div id="app">
   <!-- 로그인 -->
   <div id="login">
-    <div class="logo">🧬</div>
-    <h2 class="h-lg" style="color:var(--primary)">하비DNA</h2>
-    <p class="muted">취미가 없고 나도 날 모르는 당신을 위한<br/>취미 발굴 AI 에이전트</p>
-    <button class="btn" onclick="login()">Google로 시작하기</button>
-    <a href="#" onclick="devStart();return false;" class="muted" style="font-size:13px">로컬 테스트로 시작 (DEV_NO_AUTH=1)</a>
+    <div class="lg-frame">
+      <div class="lg-top">
+        <div class="lg-brand">HobbyRo</div>
+        <!-- <div class="lg-nav">
+          <b>Discover</b>
+          <span>My Prescriptions</span>
+          <span>Safety</span>
+          <span class="lg-ava material-symbols-outlined">person</span>
+        </div> -->
+      </div>
+      <div class="lg-body">
+        <div class="lg-card">
+          <div class="lg-orb"><span class="material-symbols-outlined">spa</span></div>
+          <div class="lg-tags"><span>힐링</span><span>창작</span><span>안정</span></div>
+          <p class="lg-cap">나만을 위한 완벽한 휴식 레시피</p>
+        </div>
+        <div class="lg-right">
+          <span class="lg-pill"><span class="material-symbols-outlined">schedule</span> 약 2분 · 9문항</span>
+          <h1 class="lg-h">취미는<br/><span class="soft">천천히</span><br/>발견하면 됩니다</h1>
+          <p class="lg-sub">서두르지 않아도 괜찮아요. 당신의 취향과 일상의 리듬을 분석해 마음이 편안해지는 첫 단추를 찾아드릴게요.</p>
+          <button class="lg-start" onclick="login()">시작하기 <span class="material-symbols-outlined">arrow_forward</span></button>
+          <p class="lg-note">* 회원가입 없이 바로 진단받을 수 있어요.</p>
+          <!-- <a href="#" onclick="devStart();return false;" class="lg-dev">로컬 테스트로 시작 (DEV_NO_AUTH=1)</a> -->
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- 앱 셸 -->
