@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>하비DNA — 취미 발굴 AI</title>
+<script src="/config.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet"/>
+<style>
+  :root{
+    --primary:#630ed4; --primary-c:#7c3aed; --on-primary:#fff;
+    --primary-fixed:#eaddff; --inverse-primary:#d2bbff;
+    --surface:#fef7ff; --surf-low:#f9f1ff; --surf:#ffffff; --surf-high:#ede5f4;
+    --secondary-c:#e5e0ee; --tertiary-c:#a15100;
+    --on-surface:#1d1a24; --on-var:#4a4455; --outline:#ccc3d8; --outline-s:#7b7487;
+    --error:#ba1a1a;
+    --r-card:14px; --r-btn:10px; --r-pill:20px;
+    --shadow:0 4px 12px rgba(27,20,48,.06); --shadow-lg:0 8px 22px rgba(27,20,48,.12);
+    --head:'Plus Jakarta Sans','Pretendard',system-ui,sans-serif;
+    --body:'Be Vietnam Pro','Pretendard',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  body{margin:0; font-family:var(--body); color:var(--on-surface);
+       background:linear-gradient(160deg,#efe7fb,#e7ecfb); min-height:100vh;}
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400;}
+  /* 폰 프레임 (데스크톱 A안: 중앙 정렬) */
+  #app{max-width:440px; margin:0 auto; background:var(--surface); min-height:100vh;
+       position:relative; box-shadow:var(--shadow-lg); overflow:hidden;}
+  .screen{display:none; padding:0 20px 96px; animation:fade .25s ease;}
+  .screen.on{display:block;}
+  @keyframes fade{from{opacity:0; transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+  /* 상단 앱바 */
+  .appbar{position:sticky; top:0; z-index:40; background:var(--surface);
+          display:flex; align-items:center; justify-content:space-between;
+          height:60px; padding:0 20px;}
+  .appbar .l{display:flex; align-items:center; gap:10px;}
+  .appbar .avatar{width:32px; height:32px; border-radius:50%; background:var(--primary-fixed);
+                  display:flex; align-items:center; justify-content:center; overflow:hidden;
+                  color:var(--primary); font-weight:700; font-size:14px;}
+  .appbar .avatar img{width:100%;height:100%;object-fit:cover;}
+  .appbar h1{font-family:var(--head); font-size:19px; font-weight:700; color:var(--primary); margin:0;}
+  .appbar .ic{color:var(--primary); background:none; border:none; cursor:pointer; font-size:24px;}
+  .appbar.back h1{color:var(--on-surface); font-size:17px;}
+
+  /* 타이포 */
+  .h-disp{font-family:var(--head); font-size:26px; font-weight:800; letter-spacing:-.02em; line-height:1.25; margin:0;}
+  .h-lg{font-family:var(--head); font-size:22px; font-weight:700; letter-spacing:-.01em; margin:0;}
+  .h-md{font-family:var(--head); font-size:18px; font-weight:700; margin:0;}
+  .muted{color:var(--on-var);}
+  .sec-title{display:flex; align-items:center; justify-content:space-between; margin:22px 0 12px;}
+  .sec-title .more{color:var(--primary); font-size:13.5px; font-weight:600; background:none; border:none; cursor:pointer;}
+
+  /* 버튼 */
+  .btn{width:100%; min-height:52px; border:none; border-radius:16px; background:var(--primary);
+       color:#fff; font-family:var(--body); font-size:16px; font-weight:700; cursor:pointer;
+       box-shadow:0 6px 16px rgba(99,14,212,.26); transition:transform .12s;
+       display:flex; align-items:center; justify-content:center; gap:8px;}
+  .btn:active{transform:scale(.98);}
+  .btn.ghost{background:var(--primary-fixed); color:var(--primary); box-shadow:none;}
+  .btn.outline{background:transparent; color:var(--primary); border:1px solid var(--primary); box-shadow:none;}
+
+  /* 칩 */
+  .chips{display:flex; gap:8px; flex-wrap:wrap;}
+  .chip{border:1px solid var(--outline); background:var(--surf); color:var(--on-var);
+        padding:9px 14px; border-radius:var(--r-pill); font-size:14px; cursor:pointer;
+        display:inline-flex; align-items:center; gap:6px; transition:.15s;}
+  .chip.sel{background:var(--primary-fixed); border-color:var(--primary-c); color:var(--primary); font-weight:600;}
+  .tag{background:var(--primary-fixed); color:var(--primary); font-size:11px; font-weight:600;
+       padding:3px 9px; border-radius:var(--r-pill);}
+
+  /* 카드 */
+  .card{background:var(--surf); border:1px solid var(--outline); border-radius:var(--r-card);
+        box-shadow:var(--shadow); padding:16px;}
+  .thumb{width:100%; height:150px; border-radius:10px; background:linear-gradient(135deg,#eaddff,#d2bbff);
+         display:flex; align-items:center; justify-content:center; font-size:54px;}
+  .thumb.sm{width:64px; height:64px; font-size:32px; flex-shrink:0;}
+
+  /* 히어로(홈/진단 인트로) */
+  .hero{position:relative; overflow:hidden; background:var(--primary-c); color:#fff;
+        border-radius:20px; padding:22px; margin-top:6px;}
+  .hero::after{content:""; position:absolute; top:-40px; right:-40px; width:150px; height:150px;
+               background:rgba(255,255,255,.14); border-radius:50%; filter:blur(30px);}
+  .hero h2{position:relative; z-index:1; font-family:var(--head); font-size:22px; font-weight:800;
+           margin:0 0 6px; line-height:1.3;}
+  .hero p{position:relative; z-index:1; margin:0 0 16px; color:rgba(255,255,255,.9); font-size:14px;}
+  .hero .btn{background:#fff; color:var(--primary); box-shadow:none;}
+
+  /* 무드칩 로우 */
+  .mood-row{display:flex; gap:8px; overflow-x:auto; padding-bottom:4px;}
+  .mood-row::-webkit-scrollbar{display:none;}
+  .mood{flex:0 0 auto; border:1px solid var(--outline); background:var(--surf); border-radius:var(--r-pill);
+        padding:9px 14px; font-size:14px; cursor:pointer; display:flex; align-items:center; gap:6px; transition:.15s;}
+  .mood.sel{background:var(--primary); color:#fff; border-color:var(--primary);}
+
+  /* 추천/보관함 리스트 아이템 */
+  .item{display:flex; gap:12px; align-items:center; background:var(--surf); border:1px solid var(--outline);
+        border-radius:var(--r-card); padding:10px; box-shadow:var(--shadow); margin-bottom:10px;}
+  .item h4{margin:0 0 3px; font-size:14.5px; font-weight:600;}
+  .item .meta{margin:0; font-size:12.5px; color:var(--on-var);}
+  .item .st{font-size:11px; font-weight:600; padding:3px 9px; border-radius:var(--r-pill);
+            background:var(--secondary-c); color:var(--on-var); white-space:nowrap;}
+  .item .st.active{background:var(--primary-fixed); color:var(--primary);}
+
+  /* 탐색 카테고리 그리드 */
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+  .cat{background:var(--surf-low); border:1px solid var(--outline); border-radius:var(--r-card);
+       padding:16px; cursor:pointer; text-align:center; transition:.15s;}
+  .cat:hover{background:var(--primary-fixed);}
+  .cat .e{font-size:26px;} .cat .t{margin-top:6px; font-weight:600; font-size:14px;}
+
+  /* 진단 옵션 카드 */
+  .qwrap{padding-top:8px;}
+  .dots{display:flex; gap:6px; justify-content:center; margin:14px 0;}
+  .dots i{width:8px; height:8px; border-radius:50%; background:var(--outline); transition:.2s;}
+  .dots i.on{background:var(--primary); width:22px; border-radius:5px;}
+  .q-title{font-family:var(--head); font-size:20px; font-weight:700; text-align:center; margin:8px 4px 4px; line-height:1.35;}
+  .q-sub{text-align:center; color:var(--on-var); font-size:13.5px; margin-bottom:18px;}
+  .opt{display:flex; align-items:center; gap:12px; width:100%; text-align:left; cursor:pointer;
+       background:var(--surf); border:1px solid var(--outline); border-radius:var(--r-card);
+       padding:15px; margin-bottom:10px; transition:.15s; font-family:var(--body);}
+  .opt .oi{width:40px; height:40px; border-radius:12px; background:var(--primary-fixed); color:var(--primary);
+           display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0;}
+  .opt .ot{font-size:15px; font-weight:600; color:var(--on-surface);}
+  .opt.sel{border-color:var(--primary); background:var(--primary-fixed);}
+  .opt.sel .oi{background:var(--primary); color:#fff;}
+  .bubble{background:var(--surf-low); border:1px solid var(--outline); border-radius:14px;
+          padding:14px 16px; font-size:15px; line-height:1.55; margin:6px 0 16px;}
+  .input-row{display:flex; gap:8px; margin-top:8px;}
+  .input-row input{flex:1; padding:14px; border-radius:var(--r-btn); border:1px solid var(--outline);
+                   background:var(--surf); font-size:15px; font-family:var(--body);}
+  .input-row input:focus{outline:none; border-color:var(--primary); box-shadow:0 0 0 3px rgba(99,14,212,.12);}
+
+  /* 로딩 점 */
+  .typing{display:flex; gap:6px; padding:16px; justify-content:center;}
+  .typing span{width:8px; height:8px; border-radius:50%; background:var(--outline); animation:blink 1.2s infinite both;}
+  .typing span:nth-child(2){animation-delay:.2s;} .typing span:nth-child(3){animation-delay:.4s;}
+  @keyframes blink{0%,80%,100%{opacity:.3;transform:translateY(0);}40%{opacity:1;transform:translateY(-3px);}}
+
+  /* 리포트 */
+  .stats3{display:grid; grid-template-columns:repeat(3,1fr); gap:8px;}
+  .stat{background:var(--surf-low); border:1px solid var(--outline); border-radius:var(--r-card); padding:12px 6px; text-align:center;}
+  .stat .l{display:block; font-size:11px; color:var(--on-var); margin-bottom:3px;}
+  .stat .v{display:block; font-size:13.5px; font-weight:700; color:var(--primary);}
+  .insight{position:relative; overflow:hidden; background:var(--primary-c); color:#fff; border-radius:18px; padding:18px; margin-top:14px;}
+  .insight::after{content:""; position:absolute; top:-40px; right:-40px; width:150px; height:150px; background:rgba(255,255,255,.13); border-radius:50%; filter:blur(30px);}
+  .insight h3{position:relative; z-index:1; font-family:var(--head); font-size:20px; font-weight:800; margin:0 0 8px;}
+  .insight p{position:relative; z-index:1; margin:0; font-size:14px; line-height:1.6; color:rgba(255,255,255,.92);}
+  .mission{background:var(--secondary-c); border:1px solid var(--outline); border-radius:18px; padding:18px; margin-top:16px;}
+  .mission .b{display:inline-block; font-size:11px; font-weight:600; color:var(--on-var); background:rgba(255,255,255,.6); padding:4px 9px; border-radius:7px; margin-bottom:8px;}
+  .react{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:14px;}
+  .react button{height:54px; border-radius:12px; border:1px solid var(--outline); background:var(--surf); color:var(--on-var); font-size:12px; cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;}
+  .react button:hover{background:var(--surf-low); border-color:var(--primary); color:var(--primary);}
+  .disc{font-size:11.5px; color:var(--outline-s); text-align:center; margin-top:14px; line-height:1.5;}
+
+  /* 빈 상태 */
+  .empty{text-align:center; padding:48px 20px; color:var(--on-var);}
+  .empty .e{font-size:44px;} .empty p{margin:12px 0 20px;}
+
+  /* 하단 탭 */
+  .bottomnav{position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:100%; max-width:440px;
+             background:var(--surf); border-top:1px solid var(--surf-high); z-index:50;
+             display:flex; justify-content:space-around; padding:8px 6px calc(8px + env(safe-area-inset-bottom));
+             box-shadow:0 -4px 12px rgba(27,20,48,.05);}
+  .tab{flex:1; background:none; border:none; cursor:pointer; color:var(--secondary); color:#8a8594;
+       display:flex; flex-direction:column; align-items:center; gap:2px; padding:6px 0; font-size:11px; font-family:var(--body);}
+  .tab .material-symbols-outlined{font-size:24px;}
+  .tab.on{color:var(--primary); font-weight:700;}
+  .tab.on .material-symbols-outlined{font-variation-settings:'FILL' 1;}
+
+  /* 로그인 */
+  #login{display:flex; flex-direction:column; justify-content:center; min-height:100vh; padding:32px; text-align:center; gap:14px;}
+  #login .logo{font-size:52px;}
+  .toast{position:fixed; bottom:88px; left:50%; transform:translateX(-50%); background:var(--on-surface); color:#fff;
+         padding:10px 18px; border-radius:var(--r-pill); font-size:13.5px; z-index:100; opacity:0; transition:.25s; pointer-events:none; white-space:nowrap;}
+  .toast.show{opacity:1;}
+</style>
+</head>
+<body>
+<div id="app">
+  <!-- 로그인 -->
+  <div id="login">
+    <div class="logo">🧬</div>
+    <h2 class="h-lg" style="color:var(--primary)">하비DNA</h2>
+    <p class="muted">취미가 없고 나도 날 모르는 당신을 위한<br/>취미 발굴 AI 에이전트</p>
+    <button class="btn" onclick="login()">Google로 시작하기</button>
+    <a href="#" onclick="devStart();return false;" class="muted" style="font-size:13px">로컬 테스트로 시작 (DEV_NO_AUTH=1)</a>
+  </div>
+
+  <!-- 앱 셸 -->
+  <div id="shell" style="display:none;">
+    <div class="appbar" id="appbar"></div>
+    <div id="scr-home" class="screen"></div>
+    <div id="scr-diag" class="screen"></div>
+    <div id="scr-library" class="screen"></div>
+    <div id="scr-settings" class="screen"></div>
+    <div id="scr-category" class="screen"></div>
+    <div id="scr-detail" class="screen"></div>
+  </div>
+
+  <!-- 하단 탭 -->
+  <nav class="bottomnav" id="bottomnav" style="display:none;">
+    <button class="tab on" data-tab="home" onclick="go('home')"><span class="material-symbols-outlined">home</span>홈</button>
+    <button class="tab" data-tab="diag" onclick="go('diag')"><span class="material-symbols-outlined">auto_awesome</span>진단</button>
+    <button class="tab" data-tab="library" onclick="go('library')"><span class="material-symbols-outlined">bookmark</span>보관함</button>
+    <button class="tab" data-tab="settings" onclick="go('settings')"><span class="material-symbols-outlined">settings</span>설정</button>
+  </nav>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const API = window.HOBBY_API;
+let token = localStorage.getItem("hobby_token") || "";
+let me = {name:"친구", picture:""};
+let sessionId = null;
+let curTab = "home";
+
+if(location.hash.startsWith("#token=")){
+  token = decodeURIComponent(location.hash.slice(7));
+  localStorage.setItem("hobby_token", token);
+  history.replaceState(null,"",location.pathname);
+}
+function login(){ location.href = API + "/auth/google/login"; }
+function devStart(){ token='dev'; localStorage.setItem('hobby_token','dev'); boot(); }
+function headers(){ return {"Content-Type":"application/json","Authorization":"Bearer "+token}; }
+
+async function api(path, method="GET", body){
+  const opt={method, headers:headers()};
+  if(body!==undefined) opt.body=JSON.stringify(body);
+  const r=await fetch(API+path, opt);
+  if(r.status===401){ localStorage.removeItem("hobby_token"); token=""; showLogin(); return null; }
+  if(!r.ok) return null;
+  return r.status===204?{}:await r.json();
+}
+function toast(msg){ const t=document.getElementById("toast"); t.textContent=msg; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),1800); }
+function esc(s){ return (s||"").replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+function showLogin(){
+  document.getElementById("login").style.display="flex";
+  document.getElementById("shell").style.display="none";
+  document.getElementById("bottomnav").style.display="none";
+}
+
+async function boot(){
+  if(!token){ showLogin(); return; }
+  const u = await api("/me");
+  if(!u){ showLogin(); return; }
+  me = u;
+  document.getElementById("login").style.display="none";
+  document.getElementById("shell").style.display="block";
+  document.getElementById("bottomnav").style.display="flex";
+  go("home");
+}
+
+function setAppbar(mode){
+  const bar=document.getElementById("appbar");
+  if(mode==="main"){
+    bar.className="appbar";
+    const av = me.picture ? `<img src="${me.picture}"/>` : (me.name||"?").slice(0,1);
+    bar.innerHTML=`<div class="l"><h1>취미로</h1></div>`+
+      `<button class="ic material-symbols-outlined">notifications</button>`;
+  }else{
+    bar.className="appbar back";
+    bar.innerHTML=`<div class="l"><button class="ic material-symbols-outlined" onclick="go('home')">arrow_back</button>`+
+      `<h1>${esc(mode)}</h1></div>`+`<button class="ic material-symbols-outlined">notifications</button>`;
+  }
+}
+let _backFn=null;
+function backTap(){ if(_backFn) _backFn(); }
+function setBack(title, fn){
+  _backFn=fn; const bar=document.getElementById("appbar"); bar.className="appbar back";
+  bar.innerHTML=`<div class="l"><button class="ic material-symbols-outlined" onclick="backTap()">arrow_back</button>`+
+    `<h1>${esc(title)}</h1></div><button class="ic material-symbols-outlined">notifications</button>`;
+}
+function showOnly(id){ document.querySelectorAll(".screen").forEach(s=>s.classList.remove("on")); document.getElementById(id).classList.add("on"); window.scrollTo(0,0); }
+
+function go(tab){
+  curTab=tab;
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("on"));
+  document.getElementById("scr-"+tab).classList.add("on");
+  document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("on", t.dataset.tab===tab));
+  window.scrollTo(0,0);
+  if(tab==="home"){ setAppbar("main"); renderHome(); }
+  else if(tab==="diag"){ setAppbar("새로운 취미 찾기"); renderDiagIntro(); }
+  else if(tab==="library"){ setAppbar("나의 취미 보관함"); renderLibrary(); }
+  else if(tab==="settings"){ setAppbar("설정"); renderSettings(); }
+}
+
+/* ── 홈 ── */
+async function renderHome(){
+  const el=document.getElementById("scr-home");
+  el.innerHTML=`<div class="typing"><span></span><span></span><span></span></div>`;
+  const d=await api("/home"); if(!d) return;
+  let h="";
+  h+=`<h2 class="h-disp" style="margin-top:16px">안녕하세요,<br/>${esc(d.name)}님!</h2>`;
+  h+=`<p class="muted" style="margin:6px 0 2px">오늘은 어떤 기분으로 새로운 즐거움을 찾아볼까요?</p>`;
+  // 무드
+  h+=`<div class="sec-title"><span class="h-md">오늘의 컨디션 참고</span></div>`;
+  h+=`<div class="mood-row">`+d.moods.map(m=>
+      `<button class="mood ${d.today_mood===m.key?'sel':''}" data-m="${m.key}" onclick="setMood('${m.key}',this)">${m.emoji} ${esc(m.label)}</button>`).join("")+`</div>`;
+  // AI 추천
+  const f=d.featured; cacheMeta([f]);
+  h+=`<div class="sec-title"><span class="h-md">AI 추천</span></div>`;
+  h+=`<div class="card" style="cursor:pointer" onclick="openHobby('${f.id}',null,()=>go('home'))"><div class="thumb">${f.emoji}</div>`+
+     `<div style="margin-top:12px"><span class="tag">AI 추천</span></div>`+
+     `<h3 class="h-md" style="margin:8px 0 4px">${esc(f.name)}</h3>`+
+     `<p class="muted" style="font-size:13.5px;margin:0 0 8px">${esc(f.why||'')}</p>`+
+     `<div class="chips" style="margin-bottom:12px">`+(f.tags||[]).map(t=>`<span class="tag">#${esc(t)}</span>`).join("")+`</div>`+
+     `<div style="display:flex;gap:8px" onclick="event.stopPropagation()"><button class="btn ghost" style="min-height:44px" onclick="openHobby('${f.id}',null,()=>go('home'))">자세히 보기</button>`+
+     `<button class="btn outline" style="min-height:44px" onclick="save('${f.id}')">저장</button></div></div>`;
+  // 탐색
+  h+=`<div class="sec-title"><span class="h-md">탐색하기</span></div>`;
+  h+=`<div class="grid2">`+d.categories.map(c=>
+      `<div class="cat" onclick="openCategory('${c.key}','${esc(c.label)}','${c.emoji}')"><div class="e">${c.emoji}</div><div class="t">${esc(c.label)}</div></div>`).join("")+`</div>`;
+  // 이어하기 / 리포트
+  if(d.has_report||d.in_progress){
+    h+=`<div class="sec-title"><span class="h-md">이어하기</span></div>`;
+    if(d.in_progress) h+=`<div class="item" onclick="go('diag')"><div class="thumb sm">⏳</div><div style="flex:1"><h4>진행 중 진단</h4><p class="meta">이어서 계속하기</p></div><span class="material-symbols-outlined muted">chevron_right</span></div>`;
+    if(d.has_report) h+=`<div class="item" onclick="go('diag')"><div class="thumb sm">🧬</div><div style="flex:1"><h4>내 취미 DNA 리포트</h4><p class="meta">지난 결과 보기</p></div><span class="material-symbols-outlined muted">chevron_right</span></div>`;
+  }
+  el.innerHTML=h;
+}
+async function setMood(key,btn){
+  document.querySelectorAll(".mood").forEach(m=>m.classList.remove("sel"));
+  btn.classList.add("sel");
+  await api("/mood","POST",{mood:key});
+  toast("오늘의 컨디션을 기록했어요");
+}
+let metaCache={};   // id -> 취미 메타(커스텀 취미 보관함 저장용)
+function cacheMeta(list){ (list||[]).forEach(it=>{ if(it&&it.id) metaCache[it.id]=it; }); }
+async function save(id){
+  const r=await api("/save","POST",{hobby_id:id, meta:metaCache[id]||null});
+  toast(r?"보관함에 저장했어요 🔖":"저장에 실패했어요");
+}
+
+/* ── 탐색: 카테고리 목록 ── */
+let _catCache=null;
+async function openCategory(key,label,emoji){
+  showOnly("scr-category"); setBack(label, ()=>go("home"));
+  const el=document.getElementById("scr-category");
+  el.innerHTML=`<div class="typing" style="margin-top:40px"><span></span><span></span><span></span></div>`;
+  if(!_catCache){ const d=await api("/categories"); if(!d) return; _catCache=d.categories; }
+  const cat=_catCache.find(c=>c.key===key)||{items:[]};
+  cacheMeta(cat.items);
+  let h=`<div style="text-align:center;margin:16px 0 4px"><div style="font-size:44px">${emoji||cat.emoji||'🎯'}</div>`+
+    `<h2 class="h-lg" style="margin-top:6px">${esc(label)}</h2>`+
+    `<p class="muted" style="font-size:13.5px">이런 취미들이 있어요. 눌러서 자세히 알아보세요.</p></div>`;
+  h+=cat.items.map(it=>
+    `<div class="item" onclick="openHobby('${it.id}',null,()=>openCategory('${key}','${esc(label)}','${emoji||''}'))">`+
+    `<div class="thumb sm">${it.emoji||'🎯'}</div><div style="flex:1">`+
+    `<h4>${esc(it.name)}</h4><p class="meta">💰 ${esc(it.cost)} · ⏱ ${esc(it.time)}</p>`+
+    `<div class="chips" style="margin-top:6px">`+(it.tags||[]).map(t=>`<span class="tag">#${esc(t)}</span>`).join("")+`</div>`+
+    `</div><span class="material-symbols-outlined muted">chevron_right</span></div>`).join("");
+  el.innerHTML=h;
+}
+
+/* ── 취미 상세(GPT 맞춤 설명) ── */
+async function openHobby(id, meta, backFn){
+  showOnly("scr-detail"); setBack("취미 자세히", backFn||(()=>go("home")));
+  const el=document.getElementById("scr-detail");
+  el.innerHTML=`<div class="typing" style="margin-top:60px"><span></span><span></span><span></span></div>`;
+  const body={hobby_id:id}; const m=meta||metaCache[id]; if(m) body.meta=m;
+  const d=await api("/hobby_detail","POST",body); if(!d){ el.innerHTML=`<p class="muted" style="margin-top:40px;text-align:center">불러오지 못했어요.</p>`; return; }
+  const hb=d.hobby, dt=d.detail; cacheMeta([Object.assign({id:id},hb)]);
+  let h=`<div style="text-align:center;margin:10px 0 6px"><div class="thumb" style="width:96px;height:96px;margin:0 auto;border-radius:22px">${hb.emoji||'🎯'}</div>`+
+    `<h2 class="h-lg" style="margin-top:12px">${esc(hb.name)}</h2>`+
+    `<div class="chips" style="justify-content:center;margin-top:8px">`+(hb.tags||[]).map(t=>`<span class="tag">#${esc(t)}</span>`).join("")+`</div></div>`;
+  // 맞춤 인트로
+  h+=`<div class="insight" style="margin-top:16px"><p style="font-size:15px">${esc(dt.intro||"")}</p>`+
+     (dt.fit_line?`<p style="margin-top:10px;font-weight:600">💜 ${esc(dt.fit_line)}</p>`:"")+`</div>`;
+  if(!d.personalized) h+=`<p class="muted" style="font-size:12px;text-align:center;margin:8px 0 0">진단을 하면 '나에게 맞는지'를 더 정확히 분석해드려요.</p>`;
+  // 메타
+  h+=`<div class="card" style="margin-top:14px"><p class="meta" style="font-size:13.5px;line-height:1.9;margin:0">`+
+     `💰 ${esc(hb.cost||dt.budget||'')}<br/>🎒 ${esc(hb.equipment||'')}<br/>⏱ ${esc(hb.time||'')} · 🌗 ${esc(hb.daynight||'')}<br/>📈 난이도 ${esc(hb.difficulty||'')}</p></div>`;
+  // 시작법
+  h+=`<div class="sec-title"><span class="h-md">이렇게 시작해요</span></div>`;
+  h+=`<div class="card">`+(dt.steps||[]).map((s,i)=>
+     `<div style="display:flex;gap:10px;${i? 'margin-top:12px':''}"><div class="oi" style="width:26px;height:26px;border-radius:8px;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0">${i+1}</div><div style="font-size:14px;line-height:1.5">${esc(s)}</div></div>`).join("")+`</div>`;
+  // 팁
+  if((dt.tips||[]).length){
+    h+=`<div class="sec-title"><span class="h-md">알아두면 좋아요</span></div>`;
+    h+=`<div class="card"><ul style="margin:0;padding-left:18px;font-size:13.5px;line-height:1.8;color:var(--on-var)">`+
+       (dt.tips||[]).map(t=>`<li>${esc(t)}</li>`).join("")+`</ul></div>`;
+  }
+  // 액션
+  h+=`<button class="btn" style="margin-top:18px" onclick="save('${id}')">🔖 이 취미 보관함에 저장</button>`;
+  h+=`<button class="btn outline" style="margin-top:10px" onclick="go('diag')">나에게 맞는지 진단해보기</button>`;
+  el.innerHTML=h;
+}
+
+/* ── 진단 ── */
+let sel=new Set(), qCount=0;
+function renderDiagIntro(){
+  const el=document.getElementById("scr-diag");
+  el.innerHTML=`<div class="hero" style="text-align:center;margin-top:12px">`+
+    `<div style="font-size:56px;position:relative;z-index:1">🧘</div>`+
+    `<h2 style="margin-top:8px">새로운 취미를 찾아볼까요?</h2>`+
+    `<p>10분이면 충분해요. 몇 가지만 편하게 골라주세요.</p>`+
+    `<button class="btn" onclick="startDiag()">진단 시작하기</button></div>`+
+    `<p class="disc" style="margin-top:18px">첫 질문만 직접 입력하고, 이후엔 보기를 눌러 답하면 돼요.</p>`;
+}
+async function startDiag(){
+  const el=document.getElementById("scr-diag"); qCount=0;
+  el.innerHTML=`<div class="typing"><span></span><span></span><span></span></div>`;
+  const d=await api("/session","POST",{}); if(!d) return;
+  sessionId=d.session_id;
+  renderSay(d.message.text, true);
+}
+function renderSay(text, firstInput){
+  const el=document.getElementById("scr-diag");
+  let h=`<div class="qwrap"><div class="bubble">${esc(text)}</div>`;
+  if(firstInput){
+    h+=`<div class="input-row"><input id="firstIn" placeholder="편하게 한두 문장 들려주세요…" onkeydown="if(event.key==='Enter')sendFirst()"/>`+
+       `<button class="btn" style="width:auto;padding:0 18px;min-height:auto" onclick="sendFirst()">보내기</button></div>`;
+  }else{
+    // 에이전트가 대화형으로 답한 경우 — 이어서 자유롭게 말하거나 질문으로 진행
+    h+=`<div class="input-row"><input id="qFree" placeholder="편하게 이어서 이야기해요…" onkeydown="if(event.key==='Enter')sendFree()"/>`+
+       `<button class="btn ghost" style="width:auto;padding:0 16px;min-height:auto" onclick="sendFree()">보내기</button></div>`+
+       `<button class="btn" style="margin-top:10px" onclick="continueDiag()">다음 질문으로</button>`;
+  }
+  h+=`</div>`; el.innerHTML=h;
+  const i=document.getElementById("firstIn"); if(i) i.focus();
+}
+function loadingDiag(){ document.getElementById("scr-diag").innerHTML=`<div class="typing" style="margin-top:60px"><span></span><span></span><span></span></div>`; }
+async function sendFirst(){
+  const inp=document.getElementById("firstIn"); const t=(inp.value||"").trim(); if(!t) return;
+  loadingDiag();
+  const m=await api("/message","POST",{session_id:sessionId, text:t});
+  if(m) route(m.message);
+}
+async function continueDiag(){
+  loadingDiag();
+  const m=await api("/message","POST",{session_id:sessionId, text:"리포트로 정리해줘"});
+  if(m) route(m.message);
+}
+function route(msg){
+  if(msg.type==="say") renderSay(msg.text, false);
+  else if(msg.type==="ask") renderQuestion(msg);
+  else if(msg.type==="report") renderReport(msg.report);
+}
+const OPT_ICONS=["self_improvement","directions_walk","groups","favorite","bolt","spa","brush","hiking"];
+function renderQuestion(msg){
+  const el=document.getElementById("scr-diag"); sel=new Set();
+  const opts=msg.options||[]; const n=opts.length; qCount++;
+  let h=`<div class="qwrap">`;
+  h+=`<div class="dots">`+Array.from({length:5},(_,i)=>`<i class="${i<Math.min(qCount,5)?'on':''}"></i>`).join("")+`</div>`;
+  h+=`<div class="q-title">${esc(msg.text)}</div>`;
+  h+=`<div class="q-sub">가장 마음이 끌리는 걸 모두 골라주세요 (중복 가능)</div>`;
+  opts.forEach((o,i)=>{
+    h+=`<button class="opt" data-i="${i}" onclick="toggleOpt(this)">`+
+       `<span class="oi material-symbols-outlined">${OPT_ICONS[i%OPT_ICONS.length]}</span>`+
+       `<span class="ot">${esc(o)}</span></button>`;
+  });
+  h+=`<button class="btn" id="nextBtn" disabled onclick='submitQ(${JSON.stringify(opts)},${n})'>다음</button>`;
+  // 기타 · 직접 입력 (툴 강제 해소 — 자유롭게 말하면 에이전트가 대화/맞춤 제안)
+  h+=`<div style="text-align:center;color:var(--outline-s);font-size:12px;margin:16px 0 8px">— 또는 —</div>`+
+     `<div class="input-row"><input id="qFree" placeholder="기타 · 직접 이야기하기 (예: 사진에 관심 있어요)" onkeydown="if(event.key==='Enter')sendFree()"/>`+
+     `<button class="btn ghost" style="width:auto;padding:0 16px;min-height:auto" onclick="sendFree()">보내기</button></div>`;
+  h+=`</div>`;
+  el.innerHTML=h;
+}
+async function sendFree(){
+  const inp=document.getElementById("qFree"); const t=(inp&&inp.value||"").trim(); if(!t) return;
+  loadingDiag();
+  const m=await api("/message","POST",{session_id:sessionId, text:t});
+  if(m) route(m.message);
+}
+function toggleOpt(btn){
+  const i=+btn.dataset.i;
+  if(sel.has(i)){ sel.delete(i); btn.classList.remove("sel"); } else { sel.add(i); btn.classList.add("sel"); }
+  document.getElementById("nextBtn").disabled = sel.size===0;
+}
+async function submitQ(opts,n){
+  if(sel.size===0) return;
+  const idxs=[...sel].sort((a,b)=>a-b); const labels=idxs.map(i=>opts[i]).join(", ");
+  loadingDiag();
+  const m=await api("/message","POST",{session_id:sessionId, text:labels, choice_indices:idxs, n_options:n});
+  if(m) route(m.message);
+}
+
+/* ── 리포트 ── */
+function renderReport(rep){
+  const el=document.getElementById("scr-diag");
+  const items=rep.items||[]; const top=items[0]; const stats=rep.stats||[];
+  cacheMeta(items);
+  const today=new Date(); const upd=`${today.getFullYear()}.${String(today.getMonth()+1).padStart(2,"0")}.${String(today.getDate()).padStart(2,"0")}`;
+  let h=`<div style="padding-top:6px">`;
+  h+=`<div class="sec-title"><span class="h-md">나의 취미 DNA</span><span class="muted" style="font-size:12px">Update: ${upd}</span></div>`;
+  h+=`<div class="stats3">`+stats.map(s=>`<div class="stat"><span class="l">${esc(s.label)}</span><span class="v">${esc(s.value)}</span></div>`).join("")+`</div>`;
+  h+=`<div class="insight"><h3>당신은 '${esc(rep.persona||"나만의 취미 유형")}'</h3><p>${esc(rep.summary||"")}</p></div>`;
+  h+=`<div class="sec-title"><span class="h-md">추천 취미</span></div>`;
+  items.forEach((it,i)=>{
+    h+=`<div class="item"><div class="thumb sm">${it.emoji||DNA_EMOJI[it.id]||"🎯"}</div><div style="flex:1">`+
+       `<div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;flex-wrap:wrap"><span class="tag">${i+1}위 · ${it.fit}%</span>${it.custom?'<span class="tag" style="background:var(--tertiary-c);color:#fff">AI 제안</span>':''}<h4 style="margin:0">${esc(it.name)}</h4></div>`+
+       `<p class="meta">💰 ${esc(it.cost)} · ⏱ ${esc(it.time)} · 🌗 ${esc(it.daynight)}</p></div>`+
+       `<button class="material-symbols-outlined" style="background:none;border:none;color:var(--primary);cursor:pointer" onclick="save('${it.id}')">bookmark_add</button></div>`;
+  });
+  if(top){
+    h+=`<div class="mission"><span class="b">오늘의 첫 불씨 · 10분</span><h3 class="h-md">(${esc(top.name)})</h3>`+
+       `<p class="muted" style="margin:8px 0 14px;font-size:14px">${esc(top.first_spark)}</p>`+
+       `<div style="display:flex;gap:10px"><button class="btn outline" style="min-height:46px" onclick="toast('오늘의 미션 완료! 🎉')">완료 체크</button>`+
+       `<button class="btn ghost" style="min-height:46px" onclick="save('${top.id}')">보관함에 저장</button></div></div>`;
+    h+=`<div class="react"><button onclick="react('${top.id}','like')"><span style="font-size:18px">👍</span>좋아요</button>`+
+       `<button onclick="react('${top.id}','dislike')"><span style="font-size:18px">👎</span>별로예요</button>`+
+       `<button onclick="react('${top.id}','tried')"><span style="font-size:18px">✔️</span>이미 해봤어요</button></div>`;
+  }
+  h+=`<button class="btn" style="margin-top:16px" onclick="go('library')">🔖 보관함에서 보기</button>`;
+  h+=`<div class="disc">${esc(rep.disclaimer||"")}</div></div>`;
+  el.innerHTML=h;
+}
+const DNA_EMOJI={plant:"🪴",sketch:"✏️",baking:"🧁",running:"🏃",climbing:"🧗",band:"🎸",calligraphy:"🖋️",photo:"📷",cooking:"🍳",puzzle:"🧩"};
+async function react(id,kind){
+  loadingDiag();
+  const m=await api("/feedback","POST",{session_id:sessionId, hobby_id:id, kind:kind});
+  if(m && m.message){ if(m.message.note) toast("🤖 "+m.message.note); route(m.message); }
+}
+
+/* ── 보관함 ── */
+let libFilter="전체";
+async function renderLibrary(){
+  const el=document.getElementById("scr-library");
+  el.innerHTML=`<div class="typing" style="margin-top:40px"><span></span><span></span><span></span></div>`;
+  const d=await api("/library"); if(!d) return;
+  const items=d.items||[];
+  cacheMeta(items);
+  el.innerHTML="";
+  let h=`<p class="muted" style="margin:14px 0 4px">당신의 꾸려온 새로운 일상의 기록들</p>`;
+  const filters=["전체","관심 있음","준비 중","완료"];
+  h+=`<div class="chips" style="margin:12px 0 16px">`+filters.map(f=>`<button class="chip ${libFilter===f?'sel':''}" onclick="setFilter('${f}')">${f}</button>`).join("")+`</div>`;
+  const shown=items.filter(it=>libFilter==="전체"||it.status===libFilter);
+  if(shown.length===0){
+    h+=`<div class="empty"><div class="e">🔖</div><p>${items.length?'해당 상태의 취미가 없어요.':'아직 저장한 취미가 없어요.<br/>진단으로 나에게 맞는 취미를 찾아보세요.'}</p>`+
+       `<button class="btn" onclick="go('diag')">취미 진단 시작하기</button></div>`;
+    el.innerHTML=h; return;
+  }
+  h+=shown.map(it=>
+    `<div class="item"><div class="thumb sm" style="cursor:pointer" onclick="openHobby('${it.id}',null,()=>go('library'))">${it.emoji||DNA_EMOJI[it.id]||'🎯'}</div><div style="flex:1">`+
+    `<h4 style="cursor:pointer" onclick="openHobby('${it.id}',null,()=>go('library'))">${esc(it.name)}</h4><p class="meta">📅 ${esc(it.saved_at)} 저장 · ${esc(it.category_label||'')}</p>`+
+    `<div class="chips" style="margin-top:6px">`+["관심 있음","준비 중","완료"].map(s=>
+        `<button class="chip ${it.status===s?'sel':''}" style="padding:5px 10px;font-size:12px" onclick="setStatus('${it.id}','${s}')">${s}</button>`).join("")+`</div>`+
+    `</div><button class="material-symbols-outlined" style="background:none;border:none;color:var(--outline-s);cursor:pointer" onclick="removeSaved('${it.id}')">delete</button></div>`
+  ).join("");
+  el.innerHTML=h;
+}
+function setFilter(f){ libFilter=f; renderLibrary(); }
+async function setStatus(id,s){ await api("/library","PATCH",{hobby_id:id,status:s}); toast("상태를 바꿨어요"); renderLibrary(); }
+async function removeSaved(id){ await api("/library/"+id,"DELETE"); toast("보관함에서 뺐어요"); renderLibrary(); }
+
+/* ── 설정 ── */
+function renderSettings(){
+  const el=document.getElementById("scr-settings");
+  const av=me.picture?`<img src="${me.picture}" style="width:100%;height:100%;object-fit:cover;border-radius:50%"/>`:(me.name||"?").slice(0,1);
+  el.innerHTML=`<div class="card" style="display:flex;align-items:center;gap:14px;margin-top:16px">`+
+    `<div class="avatar" style="width:52px;height:52px;font-size:20px">${av}</div>`+
+    `<div><div class="h-md">${esc(me.name||"친구")}</div><div class="muted" style="font-size:13px">${esc(me.email||"")}</div></div></div>`+
+    `<div class="sec-title"><span class="h-md">앱 정보</span></div>`+
+    `<div class="card"><p class="muted" style="margin:0;font-size:13.5px;line-height:1.7">하비DNA · 취미 발굴 MVP<br/>테마: Discovery Harmony (라이트)<br/>데이터: 로컬 저장(SQLite)</p></div>`+
+    `<button class="btn outline" style="margin-top:18px" onclick="logout()">로그아웃</button>`;
+}
+function logout(){ localStorage.removeItem("hobby_token"); token=""; sessionId=null; showLogin(); }
+
+boot();
+</script>
+</body>
+</html>

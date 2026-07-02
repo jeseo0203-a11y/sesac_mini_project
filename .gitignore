@@ -16,3 +16,7 @@ node_modules/
 dist/
 build/
 *.log
+
+# SQLite (로컬 데이터)
+*.db
+backend/hobbydna.db
